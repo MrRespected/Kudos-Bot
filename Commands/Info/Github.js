@@ -10,7 +10,7 @@ example:"source",
 explain:"Gets the github open source repo of the bot",
 code:`$author[Open source repo!;$useravatar[$clientid]]
 $description[Hi **$usertag**. I am developed by **$usertag[$botownerid]**. This bot is an open source project made by the original owner of the original **$username[841612776526970922]** bot, and the repository is owned by **$usertag[760504975075180564]**]
-$addfield[** **;**__Repo Related:__ [Github Repo](https://github.com/Kudos-Official/Kudos-Bot/) | [Support For Repo](https://discord.gg/5NB8fUYkpW) | [Original Repo Owner's Profile](https://discord.com/users/760504975075180564)\n\n__Related To Me:__ [Support Server]($getvar[support]) | [Invite]($getvar[invite]) | [Developer Profile](https://discord.com/users/$botownerid)**]
+$addfield[** **;**__Repo Related:__ [Github Repo](https://github.com/Kudos-Official/Kudos-Bot/) | [Support For Repo](https://discord.gg/5NB8fUYkpW) | [Original Repo Owner's Profile](https://discord.com/users/760504975075180564)\n\n__Related To Me:__ [Support Server]($getvar[support]) | [Invite]($getvar[botinvite]) | [Developer Profile](https://discord.com/users/$botownerid)**]
 $thumbnail[$useravatar[$clientid]]
 $footer[Thanks for using me!;$useravatar[$clientid]]
 $servercooldown[10s;Woah chill, someone just checked about the repo sometime back! **%time%** is the time you need to wait for :eyes:]`})
