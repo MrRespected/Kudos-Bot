@@ -8,7 +8,7 @@ const buttons = require('discord-buttons')
 buttons(bot.client)
 const fetch = require('node-fetch');
 bot.onMessage();
-bot.loadCommands(`./commands/`)
+bot.loadCommands(`./Commands/`)
 bot.status({
   text: " $allmemberscount members in $servercount servers!",
   type: "WATCHING",
