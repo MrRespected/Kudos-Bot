@@ -147,8 +147,6 @@ bot.variables({
   hp:"0",//Hitpoint
   lh:"",//Last Hit By
   fmid:"",//Fight messageid
-  //Mod Logs
-  ml:"",//Mod Logs Channel
   //Welcome
   wchannel:"",//Channel
   wmessage:"",//Message
@@ -438,15 +436,6 @@ bot.updateCommand({
 channel:"$randomchannelid", 
 code:`$setchannelvar[esnipem;[Message](https://discord.com/channels/$guildid/$channelid/$messageid)\n\n**Old Message:** $oldmessage\n\n**New Message:** $message]
 $setchannelvar[esnipea;$authorid;$channelused]
-$if[$channelexists[$getservervar[ml]]==true]
-$author[A Message Was Edited In #$channelname[$channelUsed]]
-$description[**Old Message:** $oldmessage
-**New Message:** $message
-**Message Author:** <@$authorid>]
-$color[RANDOM]
-$footer[$username[$clientid] Logging;$useravatar[$clientid]]
-$usechannel[$getservervar[ml]]
-$endif
 $onlyif[$partial==false;{execute:cache}]
 $onlyif[$oldmessage!=$message;]`})
 bot.onMessageUpdate()
@@ -457,14 +446,6 @@ bot.deletedCommand({
 channel:"$randomchannelid", 
 code:`$setchannelvar[snipem;**Message:** $message;$channelused]
 $setchannelvar[snipea;$authorid;$channelused]
-$if[$channelexists[$getservervar[ml]]==true]
-$author[A Message Was Deleted In #$channelname[$channelUsed]]
-$description[**Message:** $message
-**Message Author:** $username[$authorid]]
-$color[FF0000]
-$footer[$username[$clientid] Logging;$useravatar[$clientid]]
-$usechannel[$getservervar[ml]]
-$endif
 $onlyif[$partial==false;{execute:cache}]`})
 bot.onMessageDelete()
 
@@ -474,7 +455,6 @@ code:`$log[$usertag[$botownerid], I am up!]`
 })
 
 //Starboard
-
 bot.reactionAddCommand({
 channel:"$channelid",
 code:`$if[$suppresserrors$getmessagevar[smid]$suppresserrors==]
