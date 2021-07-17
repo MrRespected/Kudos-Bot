@@ -1,0 +1,25 @@
+{
+  "name": "-asdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aoi.js": "4.2.1",
+    "canvacord": "5.2.1",
+    "dbd.db": "1.4.5",
+    "discord-buttons": "^3.1.1",
+    "json-query": "2.2.2",
+    "node-fetch": "2.6.1",
+    "parse-ms": "2.0.0",
+    "random-words": "1.1.1",
+    "weky": "2.0.7"
+  }
+}
