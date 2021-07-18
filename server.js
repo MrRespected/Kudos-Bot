@@ -21,6 +21,7 @@ bot.status({
 })
 bot.variables({
   //customize
+  join_channel:"",//Channel for bot join and leave
   prefix: "?", //Self Explanatory
   botinvite:"https://discord.com/oauth2/authorize?client_id=841612776526970922&scope=bot&permissions=1544023167", //Change to your bot invite
   support:"https://discord.gg/v48eDDgESa", //Change to your support server
@@ -205,12 +206,8 @@ code:`$setvar[channel;$mentionedchannels[1]]
 $onlyif[$mentionedchannels[1]!=;Mention a channel!]
 $onlyforids[$botownerid;]`})
 bot.joinCommand({
-channel:"$randomChannelID",
-code:`$if[$serverchannelexists[$getservervar[wchannel]]==true]
-$eval[$getservervar[wmessage]]
-$usechannel[$getservervar[wchannel]]
-$else
-$endif
+channel:"$getservervar[wchannel]",
+code:`$eval[$getservervar[wmessage]]
 $if[$getuservar[sbd]==false]
 $setuservar[cf;$getservervar[cf]]
 $setuservar[bank;$getservervar[sb]]
@@ -219,10 +216,16 @@ $else
 $endif`})
 bot.onJoined()
 
+
 bot.botJoinCommand({
 channel:"$randomchannelid",
-code:`$eval[$getvar[about]]`}) //Optional - Create a variable "join_channel" and use channelsendmessage to send a message in that channel
+code:`$eval[$getvar[about]]
+$channelsendmessage[$getvar[join_channel];{author:New Server Joined}{description:I joined **$servername**($guildid)!}{field:Members Count Of The Server:$memberscount}{field:Owner:$usertag[$ownerid]($ownerid):no}{field:Total Members Count Now:$allmemberscount}{field:Current Server Count:$servercount}{timestamp}{thumbnail:$servericon}{color:GREEN};no]`})
 bot.onGuildJoin()
+bot.botLeaveCommand({
+channel:"$getvar[join_channel]",
+code:`$channelsendmessage[$getvar[join_channel];{author:Server Left}{description:I was removed from **$servername**($guildid)!}{field:Members Count Of The Server:$memberscount}{field:Owner:$usertag[$ownerid]($ownerid):no}{field:Total Members Count Now:$allmemberscount}{field:Current Server Count:$servercount}{timestamp}{thumbnail:$servericon}{color:FF0000};no]`})
+bot.onGuildLeave()
 
 //Tickets
 
