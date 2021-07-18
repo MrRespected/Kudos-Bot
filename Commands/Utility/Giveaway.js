@@ -9,9 +9,11 @@ usage:"gw <channel> <time> <prize>",
 example:"gw #test 1m Test Giveaway!",
 explain:"Start a giveaway in channel #test, for 1 minute, with the prize as **Test Giveaway!**, selecting 1 winner.",
 code:`$editmessage[$get[m];**Giveaway Ended!**{author:This giveaway is over}{description:**Hosted By#COLON#** <@$authorid>\n**Winner#COLON#** <@$get[1]>}{color:RANDOM}{footer:Congrats!}{timestamp}{thumbnail:$servericon};$findchannel[$message[1];no]]
-$channelsendmessage[$findchannel[$message[1];no];<@$authorid>, $get[1] has won the giveaway of **$messageslice[2]**!
+$senddm[$get[1];You have won the giveaway of **$messageslice[2]**!]\nJump To Message: https://discord.com/channels/$guildid/$findchannel[$message[1];no]/$get[m]]
 
-Jusmp To Message: https://discord.com/channels/$guildid/$findchannel[$message[1];no]/$get[m];no]
+$channelsendmessage[$findchannel[$message[1];no];<@$authorid>, <@$get[1]> has won the giveaway of **$messageslice[2]**!
+
+Jump To Message: https://discord.com/channels/$guildid/$findchannel[$message[1];no]/$get[m];no]
 $let[1;$randomtext[$replacetext[$joinsplittext[;];a;;1]]]
 $textsplit[$replacetext[$replacetext[a$getreactions[$findchannel[$message[1];no];$get[m];🎉;id];$clientid;;1];a,;;1];,]
 $wait[$message[2]]
