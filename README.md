@@ -9,6 +9,8 @@ Lol, you're already viewing the github but here it is - https://github.com/Kudos
 # Things To Do
 Change your token, and everything under the comment "customize" and "EMOTES", for emotes, only put the emote name :)
 Remember this all is in server.js
+The servers that use the bot need to have an icon, or many commands wont respond
+Add all custom emojis or get console errors and no response
 # Credits
 I've taken a hell lot of time to do this, hope credits are not stolen :3 
 # Side Notes
