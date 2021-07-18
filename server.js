@@ -28,38 +28,38 @@ bot.variables({
   about:"Hello **$usertag**, I am **$username[$clientid]**, developed by **$usertag[$botownerid]**!\n\nMy prefix here is \`$getservervar[prefix]\`!\nMy main command is **$getservervar[prefix]help**, and there you can recieve a list of all commands!\n\n**Support Server#COLON#** <$getvar[support]>\n**Invite Me#COLON#** <$getvar[botinvite]>\n\n\nHave fun $customemoji[heart]",//Change if you wanna. Even if u dont, remember to change the emojis
   channel:"859606931651690497",//Change to channel for command usage
   //EMOJIS(KEEP ONLY EMOJI NAMES) PLEASE READ THIS ELSE YOU WILL MESS UP LOL
-  solve:"solve",//Emoji for ticket solve
-  unsolve:"unsolve",//Emoji for ticket unsolve
-  modify:"modify",//Emoji for ticket modify
-  rename:"rename",//Emoji for ticket rename
-  addmember:"addmember",//Emoji to add user to ticket
-  removemember:"removemember",//Emoji to remove user to ticket
-  createrr:"alright",//Emoji for RR(as in the one sent when someone starts and RR setup, for better message show lol)
-  beautiful:"beautiful",//Emoji for beautiful: fun command
-  bored:"bored",//Emoji for bored: fun command
-  bye:"bye",//Emoji for bye: fun command
-  clap:"clap",//Emoji for clap: fun command
-  cuddle:"cuddle",//Emoji for cuddle: fun command
-  facepalm:"facepalm",//Emoji for facepalm: fun command
-  happy:"happy",//Emoji for happy: fun command
-  hug:"hug",//Emoji for hug: fun command
-  kill:"kill",//Emoji for kill: fun command
-  kiss:"kiss",//Emoji for kiss: fun command
-  lick:"lick",//Emoji for lick: fun command
-  punch:"punch",//Emoji for punch: fun command
-  slap:"slap",//Emoji for slap: fun command
-  spank:"spank",//Emoji for spank: fun command
-  wanted:"wanted",//Emoji for wanted: fun command
-  wasted:"wasted",//Emoji for wasted: fun command
-  emod:"mod",//Emoji for moderation: help command
-  efun:"fun",//Emoji for fun: help command
-  eeconomy:"economy",//Emoji for economy: help command
-  erole:"role",//Emoji for RR: help command
-  elevelling:"levelling",//Emoji for levelling: help command
-  ewelcome:"welcome",//Emoji for welcome: help command
-  eutility:"utility",//Emoji for utility: help command
-  einfo:"info",//Emoji for info: help command
-  eticket:"ticket",//Emoji for ticket: help command
+  solve:"",//Emoji for ticket solve
+  unsolve:"",//Emoji for ticket unsolve
+  modify:"",//Emoji for ticket modify
+  rename:"",//Emoji for ticket rename
+  addmember:"",//Emoji to add user to ticket
+  removemember:"",//Emoji to remove user to ticket
+  createrr:"",//Emoji for RR(as in the one sent when someone starts and RR setup, for better message show lol)
+  beautiful:"",//Emoji for beautiful: fun command
+  bored:"",//Emoji for bored: fun command
+  bye:"",//Emoji for bye: fun command
+  clap:"",//Emoji for clap: fun command
+  cuddle:"",//Emoji for cuddle: fun command
+  facepalm:"",//Emoji for facepalm: fun command
+  happy:"",//Emoji for happy: fun command
+  hug:"",//Emoji for hug: fun command
+  kill:"",//Emoji for kill: fun command
+  kiss:"",//Emoji for kiss: fun command
+  lick:"",//Emoji for lick: fun command
+  punch:"",//Emoji for punch: fun command
+  slap:"",//Emoji for slap: fun command
+  spank:"",//Emoji for spank: fun command
+  wanted:"",//Emoji for wanted: fun command
+  wasted:"",//Emoji for wasted: fun command
+  emod:"",//Emoji for moderation: help command
+  efun:"",//Emoji for fun: help command
+  eeconomy:"",//Emoji for economy: help command
+  erole:"",//Emoji for RR: help command
+  elevelling:"",//Emoji for levelling: help command
+  ewelcome:"",//Emoji for welcome: help command
+  eutility:"",//Emoji for utility: help command
+  einfo:"",//Emoji for info: help command
+  eticket:"",//Emoji for ticket: help command
   //mute
   mrole:"Muted", //Original Mute Role
   //Warns
