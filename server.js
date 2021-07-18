@@ -205,8 +205,11 @@ code:`$setvar[channel;$mentionedchannels[1]]
 $onlyif[$mentionedchannels[1]!=;Mention a channel!]
 $onlyforids[$botownerid;]`})
 bot.joinCommand({
-channel:"$getservervar[wchannel]",
-code:`$eval[$getservervar[wmessage]]
+channel:"$randomChannelID",
+code:`$if[$sercerchannelexists[$getservervar[wchannel]==true]
+$eval[$getservervar[wmessage]]
+$else
+$endif
 $if[$getuservar[sbd]==false]
 $setuservar[cf;$getservervar[cf]]
 $setuservar[bank;$getservervar[sb]]
