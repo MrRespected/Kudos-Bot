@@ -15,7 +15,7 @@ $onlyif[$channelexists[$findchannel[$splittext[1];no]]==true;Not a valid channel
 $suppresserrors[That category does not exist!]
 $onlyif[$channeltype[$splittext[4]]==category;The 4th argument is not a category!]
 $suppresserrors
-$onlyif[$checkcontains[$splittext[2]$splittext[3];/]==false;You can't keep a / symbol in the ticket message due to some reasons!]
+$onlyif[$checkcontains[$splittext[2]$splittext[3];/;|]==false;You can't keep a / or | symbol in the ticket message due to the bot taking those as separators!]
 $onlyif[$checkcondition[$splittext[1]!=]$checkcondition[$splittext[2]!=]$checkcondition[$splittext[3]!=]$checkcondition[$splittext[4]!=]==truetruetruetrue;{field:Invalid syntax Used!:> \`\`\`fix
 > $getservervar[prefix]tickets Channel For Ticket | Ticket Embed Title | In Ticket Message | Category For Ticket\`\`\`}{color:FF0000}]
 $textsplit[$replacetext[$message; | ;|];|]
