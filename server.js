@@ -212,19 +212,8 @@ $setuservar[cf;$getservervar[cf]]
 $setuservar[bank;$getservervar[sb]]
 $setuservar[sbd;true]
 $else
-$endif
-$if[$serverchannelexists[$getservervar[ml]]==true]
-$channelsendmessage[$getservervar[ml];{author:A user joined!:$authoravatar}{description:<@$authorid> joined **$servername**!}{color:00FF00}{footer:$username[$clientid] mod logs}{timestamp}{thumbnail:$useravatar[$get[user]]}]
-$else
 $endif`})
 bot.onJoined()
-bot.leaveCommand({
-channel:"$getservervar[wchannel]",
-code:`$if[$serverchannelexists[$getservervar[bl]]==true]
-$channelsendmessage[$getservervar[bl];{author:A user left!:$authoravatar}{description:<@$authorid> left **$servername**!}{color:FF0000}{footer:$username[$clientid] mod logs}{timestamp}{thumbnail:$useravatar[$get[user]]}]
-$else
-$endif`})
-bot.onLeave()
 
 bot.botJoinCommand({
 channel:"$randomchannelid",
