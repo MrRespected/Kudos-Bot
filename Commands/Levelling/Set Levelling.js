@@ -13,7 +13,7 @@ Successfully set the levelling system!
 $setservervar[lmsg;$messageslice[2]]
 $setservervar[lping;$message[2]]
 $setservervar[lchannel;$replacetext[$replacetext[$checkcondition[$message[1]==same];true;same];false;$findchannel[$message[1];no]]]
-$onlyif[$replacetext[$replacetext[$tolowercase[$message[2];yes;];no;]]==;Enter either yes/no in the second argument, which decides whether the user is to be pinged or not!]
+$onlyif[$replacetext[$replacetext[$tolowercase[$message[2]];yes;];no;]==;Enter either yes/no in the second argument, which decides whether the user is to be pinged or not!]
 $onlyif[$serverchannelexists[$replacetext[$replacetext[$checkcondition[$message[1]==same];true;$channelid];false;$findchannel[$message[1];no]]]==true;{description:Enter either "same" or mention an actual channel!}{color:FF0000}]
 $onlyif[$message[3]!=;{description:Invalid syntax! \`\`\`levelling disable/<"same" for the channel the message of the user is sent in, or a valid channel> <ping on levelup> <message>\`\`\`}{color:FF0000}]
 $else
