@@ -8,7 +8,7 @@ user:"None(Unless the server has AFK requirements set up)",
 usage:"afk [reason]",
 example:"afk be right back!",
 explain:"Sets the user as AFK, and on mention, **be right back!** is shown as a message.",
-code:`$sendmessage[$customemoji[RG_verify] I successfully marked you as **AFK**!
+code:`$sendmessage[$customemoji[$getvar[createrr]] I successfully marked you as **AFK**!
 
 > **Reason Specified By You:** 
 $get[reason]{delete:20s};no]
