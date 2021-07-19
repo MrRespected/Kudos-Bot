@@ -296,7 +296,6 @@ $endelseif
 $else
 Could not find the user/role!
 $endif`})
-
 bot.awaitedCommand({
 name:"rename",
 code:`Alright, please enter the new name for this ticket!
@@ -319,10 +318,10 @@ bot.command({
 name:"$alwaysExecute",
 code:`$if[$getchannelvar[topener]!=]
 $setchannelvar[tscript;$getchannelvar[tscript]$usertag at $hour:$minute:$second(GMT)\n$message\n\n]
-$setmessagevar[author;$authorid]
+$setmessagevar[author;$authorid;$messageid]
 $else
-$setmessagevar[author;$authorid]
-$endif`})
+$endif
+$setmessagevar[author;$authorid;$messageid]`})
 
 
 //Reaction Roles
@@ -334,12 +333,14 @@ $setuservar[cmid;]
 $setservervar[cemoji;$getservervar[cemoji]$emojitostring.]
 $awaitmessages[$authorid;1m;everything;ny;Time up! Use **$getservervar[prefix]create-rr** if you want to start again!]
 $customemoji[$getvar[createrr]] **New Group - Extra Part**
+
 Would you like to add another role, or not? Please enter **__yes__** OR **__no__**.
 $elseif[$getuservar[armid]==1]
 $setuservar[armid;]
 $setservervar[aremoji;$emojitostring]
 $awaitmessages[$authorid;1m;everything;armid;Time up! Use **$getservervar[prefix]create-rr** if you want to start again!]
 $customemoji[$getvar[createrr]] **Existing RR - Message ID [Part 3/3]**
+
 **Please enter the ID of the message you want to add this RR to. Note that the message should be from this channel, if not, try mentioning the channel and entering the message ID too!** Also note that the message should have an RR already, or you would have to execute this again!
 $endelseif
 $else
@@ -347,27 +348,22 @@ $endif
 $onlyif[$isbot[$authorid]==false;]`})
 bot.reactionAddCommand({
 channel:"$channelid",
-code:`$giverole[$authorid;$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]
+code:`$if[$textsplit[$getmessagevar[brole];.]$replacetext[$replacetext[$checkcondition[$getmessagevar[brole]==a];true;false];false;$checkcontains[$userroles[$authorid;ids;.];$joinsplittext[;]]]$textsplit[$getmessagevar[brole];.]==false]
+$djsEval[channel.messages.fetch(message.id).then(d=>d.reactions.cache.find(x=>x.emoji.toString() === "$emojitostring").users.remove(author.id))] 
+$senddm[$authorid;**$servername:** Could not give you the role because you have a blacklisted role needed for that role!]
+$elseif[$textsplit[$getmessagevar[orole];.]$replacetext[$replacetext[$checkcondition[$getmessagevar[orole]==a];true;true];false;$checkcontains[$userroles[$authorid;ids;.];$joinsplittext[;]]]$textsplit[$getmessagevar[orole];.]==true]
+$djsEval[channel.messages.fetch(message.id).then(d=>d.reactions.cache.find(x=>x.emoji.toString() === "$emojitostring").users.remove(author.id))] 
+$senddm[$authorid;**$servername:** You do not have the role required to obtain this role!]
+$endelseif
+$else
+$giverole[$authorid;$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]
 $senddm[$authorid;You successfully recieved the role **$rolename[$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]**, since you reacted to $emojitostring in the server **$servername**!]
-$onlyif[$checkcontains[$getmessagevar[emoji];.]==true;{execute:dr}]
 $textsplit[$replacetext[$getmessagevar[emoji];$emojitostring;];.]
-$onlyif[$replacetext[$replacetext[$checkcondition[$getmessagevar[orole]==a];true;true];false;$checkcontains[$userroles[$authorid;ids;.];$replacetext[$getmessagevar[orole];.;#SEMI#]]]==true;{execute:hnnr}]
-$onlyif[$replacetext[$replacetext[$checkcondition[$getmessagevar[brole]==a];true;false];false;$checkcontains[$userroles[$authorid;ids;.];$replacetext[$getmessagevar[brole];.;#SEMI#]]]==false;{execute:hbr}]
+$onlyif[$roleposition[$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]>$roleposition[$highestrole[$clientid]];]
+$endif
 $onlyif[$checkcontains[$getmessagevar[emoji];$emojitostring]==true;]
 $onlyif[$getmessagevar[role]!=;]
 $onlyif[$isbot[$authorid]==false;]`})
-bot.awaitedCommand({
-name:"hbr",
-code:`$djsEval[channel.messages.fetch(message.id).then(d=>d.reactions.resolve("$emojitostring").users.remove(author.id))]
-$senddm[$authorid;**$servername:** Could not give you the role because you have a blacklisted role needed for that role!]`})
-bot.awaitedCommand({
-name:"hnnr",
-code:`$djsEval[channel.messages.fetch(message.id).then(d=>d.reactions.resolve("$emojitostring").users.remove(author.id))]
-$senddm[$authorid;**$servername:** You do not have the role required to obtain this role!]`})
-bot.awaitedCommand({
-name:"dr",
-code:`$giverole[$authorid;$getmessagevar[role]]
-$senddm[$authorid;You successfully recieved the role **$rolename[$getmessagevar[role]]**, since you reacted to $emojitostring in __$servername__!]`})
 bot.reactionRemoveCommand({
 channel:"$channelid",
 code:`$takerole[$authorid;$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]
@@ -451,18 +447,17 @@ code:`$log[$usertag[$botownerid], I am up!]`
 })
 
 //Starboard
+
 bot.reactionAddCommand({
 channel:"$channelid",
 code:`$if[$suppresserrors$getmessagevar[smid]$suppresserrors==]
 $setmessagevar[smid;$splittext[1]]
-$textsplit[$channelsendmessage[$getservervar[schannel];**⭐ $reactioncount[$channelid;$messageid;⭐]** | <#$channelid> | Originally Posted By <@$get[a]>{author:$usertag[$get[a]]:$useravatar[$get[a]]}{description:$getmessage[$channelid;$messageid;content]}{field:Original Message:[Jump To Message!](https://discord.com/channels/$guildid/$channelid/$messageid):no}{image:$messageattachment}{color:YELLOW}{footer:Starred At $day-$month-$year | StarBoard System Of $username[$clientid]:$useravatar[$clientid]};yes]; ]
-$let[a;$getmessagevar[author]]
+$textsplit[$channelsendmessage[$getservervar[schannel];**⭐ $reactioncount[$channelid;$messageid;⭐]** | <#$channelid> | Originally Posted By <@$get[a]>{author:$usertag[$get[a]]}{description:$getmessage[$channelid;$messageid;content]}{field:Original Message:[Jump To Message!](https://discord.com/channels/$guildid/$channelid/$messageid):no}{image:$messageattachment}{color:YELLOW}{footer:Starred At $day-$month-$year | StarBoard System Of $username[$clientid]};yes]; ]
+$let[a;$getmessagevar[author;$messageid]]
 $suppresserrors
 $else
-$editmessage[$getmessagevar[smid];**⭐ $reactioncount[$channelid;$messageid;⭐]** | <#$channelid> | Originally Posted By <@$get[a]>{author:$usertag[$get[a]]:$useravatar[$get[a]]}{description:$getmessage[$channelid;$messageid;content]}{field:Original Message:[Jump To Message!](https://discord.com/channels/$guildid/$channelid/$messageid):no}{image:$messageattachment}{color:YELLOW}{footer:$getembed[$channelid;$getmessagevar[smid];footer]:$useravatar[$clientid]};$getservervar[schannel]]
-$onlyif[$messageexists[$getservervar[schannel];$getmessagevar[smid]]==true;]
+$editmessage[$getmessagevar[smid];**⭐ $reactioncount[$channelid;$messageid;⭐]** | <#$channelid> | Originally Posted By <@$get[a]>{author:$usertag[$get[a]]}{description:$getmessage[$channelid;$messageid;content]}{field:Original Message:[Jump To Message!](https://discord.com/channels/$guildid/$channelid/$messageid):no}{image:$messageattachment}{color:YELLOW}{footer:$getembed[$channelid;$getmessagevar[smid];footer]};$getservervar[schannel]]
 $let[a;$getmessagevar[author]]
-$suppresserrors
 $endif
 $onlyif[$suppresserrors$reactioncount[$channelid;$messageid;⭐]$suppresserrors>=$getservervar[sreq];]
 $onlyif[$replacetext[$emojitostring;⭐;]==;]
@@ -471,7 +466,7 @@ $onlyif[$getservervar[sreq]!=0;]`})
 bot.reactionRemoveCommand({
 channel:"$channelid",
 code:`$if[$suppresserrors$reactioncount[$channelid;$messageid;⭐]$suppresserrors!=0]
-$editmessage[$getmessagevar[smid];**⭐ $reactioncount[$channelid;$messageid;⭐]** | <#$channelid> | Originally Posted By <@$get[a]>{author:$usertag[$get[a]]:$useravatar[$get[a]]}{description:$getmessage[$channelid;$messageid;content]}{field:Original Message:[Jump To Message!](https://discord.com/channels/$guildid/$channelid/$messageid):no}{image:$messageattachment}{color:YELLOW}{footer:$getembed[$channelid;$getmessagevar[smid];footer]:$useravatar[$clientid]};$getservervar[schannel]]
+$editmessage[$getmessagevar[smid];**⭐ $reactioncount[$channelid;$messageid;⭐]** | <#$channelid> | Originally Posted By <@$get[a]>{author:$usertag[$get[a]]}{description:$getmessage[$channelid;$messageid;content]}{field:Original Message:[Jump To Message!](https://discord.com/channels/$guildid/$channelid/$messageid):no}{image:$messageattachment}{color:YELLOW}{footer:$getembed[$channelid;$getmessagevar[smid];footer]};$getservervar[schannel]]
 $let[a;$getmessagevar[author]]
 $suppresserrors
 $onlyif[$suppresserrors$reactioncount[$channelid;$messageid;⭐]$suppresserrors>=$getservervar[sreq];]
