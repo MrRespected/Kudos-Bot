@@ -231,9 +231,13 @@ bot.onGuildLeave()
 
 bot.reactionAddCommand({
 channel:"$channelid",
-code:`$setchannelvar[topener;$authorid;$splittext[1]]
+code:`$channelsendmessage[$splittext[1];<@$authorid>{author:$usertag's ticket!:$authoravatar}{title:Welcome to your ticket!}{description:$replacetext[$advancedtextsplit[$getservervar[tmsg];/;$get[i]];{user};$usertag]}{footer:Opened by $usertag | Ticketing system of $username[$clientid]:$useravatar[$clientid]}{timestamp}{thumbnail:$authoravatar}{color:RANDOM}{reactions:🔒};no]
+$setchannelvar[topener;$authorid;$splittext[1]]
 $setchannelvar[tsolve;false;$splittext[1]]
-$textsplit[$newticket[ticket-$username-#$discriminator;<@$authorid>{author:$usertag's ticket!:$authoravatar}{title:Welcome to your ticket!}{description:$replacetext[$advancedtextsplit[$getservervar[tmsg];/;$get[i]];{user};$usertag]}{footer:Opened by $usertag | Ticketing system of $username[$clientid]:$useravatar[$clientid]}{timestamp}{thumbnail:$authoravatar}{color:RANDOM};$advancedtextsplit[$getservervar[tcat];/;$get[i]];yes;An error occurred!]; ]
+$modifychannelperms[$splittext[1];+sendmessages;$authorid]
+$modifychannelperms[$splittext[1];+readmessages;$authorid]
+$modifychannelperms[$splittext[1];+viewchannel;$authorid]
+$textsplit[$createChannel[ticket-$username-#$discriminator;text;yes;$advancedtextsplit[$getservervar[tcat];/;$get[i]]]; ]
 $djsEval[channel.messages.fetch(message.id).then(d=>d.reactions.resolve("🎫").users.remove(author.id))]
 $onlyif[$get[i]!=0;]
 $let[i;$findtextsplitindex[$messageid]]
@@ -242,6 +246,15 @@ $onlyif[\`$emojitostring\`==\`🎫\`;]
 $onlyif[$getservervar[tmsg]!=;]
 $onlyif[$isbot[$authorid]==false;]`})
 bot.onReactionAdd()
+bot.reactionAddCommand({
+channel:"$channelid",
+code:`$deletechannels[$channelid]
+$wait[10s]
+$sendmessage[Closing ticket in 10 seconds;no]
+$onlyif[$authorid==$getchannelvar[topener];Only **$usertag[$getchannelvar[topener]]** can do this. If you are an admin, you can use **$getservervar[prefix]settings** instead.]
+$onlyif[$replacetext[$emojitostring;🔒;]==;]
+$onlyif[$getchannelvar[topener]!=;]
+$onlyif[$isbot[$authorid]==false;]`})
 //Awaited Tickets
 bot.awaitedCommand({
 name:"solve",
@@ -348,22 +361,40 @@ $endif
 $onlyif[$isbot[$authorid]==false;]`})
 bot.reactionAddCommand({
 channel:"$channelid",
-code:`$if[$textsplit[$getmessagevar[brole];.]$replacetext[$replacetext[$checkcondition[$getmessagevar[brole]==a];true;false];false;$checkcontains[$userroles[$authorid;ids;.];$joinsplittext[;]]]$textsplit[$getmessagevar[brole];.]==false]
+code:`$if[$getmessagevar[brole]!=a]
 $djsEval[channel.messages.fetch(message.id).then(d=>d.reactions.cache.find(x=>x.emoji.toString() === "$emojitostring").users.remove(author.id))] 
 $senddm[$authorid;**$servername:** Could not give you the role because you have a blacklisted role needed for that role!]
-$elseif[$textsplit[$getmessagevar[orole];.]$replacetext[$replacetext[$checkcondition[$getmessagevar[orole]==a];true;true];false;$checkcontains[$userroles[$authorid;ids;.];$joinsplittext[;]]]$textsplit[$getmessagevar[orole];.]==true]
+$onlyif[$hasanyrole[$authorid;$joinsplittext[;]]==true;{execute:gr}]
+$textsplit[$getmessagevar[brole];.]
+$else
+$if[$getmessagevar[arole]!=a]
 $djsEval[channel.messages.fetch(message.id).then(d=>d.reactions.cache.find(x=>x.emoji.toString() === "$emojitostring").users.remove(author.id))] 
 $senddm[$authorid;**$servername:** You do not have the role required to obtain this role!]
-$endelseif
+$onlyif[$hasanyrole[$authorid;$joinsplittext[;]]]==false;{execute:gr}]
+$textsplit[$getmessagevar[arole];.]
 $else
 $giverole[$authorid;$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]
 $senddm[$authorid;You successfully recieved the role **$rolename[$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]**, since you reacted to $emojitostring in the server **$servername**!]
+$onlyif[$roleposition[$highestrole[$clientid]]>$roleposition[$highestrole[$authorid]];{execute:uar}]
+$onlyif[$roleposition[$highestrole[$clientid]]>$roleposition[$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]];{execute:nr}]
 $textsplit[$replacetext[$getmessagevar[emoji];$emojitostring;];.]
-$onlyif[$roleposition[$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]>$roleposition[$highestrole[$clientid]];]
+$endif
 $endif
 $onlyif[$checkcontains[$getmessagevar[emoji];$emojitostring]==true;]
-$onlyif[$getmessagevar[role]!=;]
 $onlyif[$isbot[$authorid]==false;]`})
+bot.awaitedCommand({
+name:"nr",
+code:`$senddm[$authorid;**$servername:** Failed to assign the role, since its above me! Kindly report this to an admin so they can put me above them!]`})
+bot.awaitedCommand({
+name:"uar",
+code:`$senddm[$authorid;**$servername:** Failed to assign the role, since your highest role is above me!]`})
+bot.awaitedCommand({
+name:"gr",
+code:`$giverole[$authorid;$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]
+$senddm[$authorid;You successfully recieved the role **$rolename[$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]**, since you reacted to $emojitostring in the server **$servername**!]
+$textsplit[$replacetext[$getmessagevar[emoji];$emojitostring;];.]
+$onlyif[$roleposition[$highestrole[$clientid]]>$roleposition[$highestrole[$authorid]];{execute:uar}]
+$onlyif[$roleposition[$highestrole[$clientid]]>$roleposition[$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]];{execute:nr}]`})
 bot.reactionRemoveCommand({
 channel:"$channelid",
 code:`$takerole[$authorid;$advancedtextsplit[$getmessagevar[role];.;$findtextsplitindex[]]]
@@ -440,11 +471,6 @@ code:`$setchannelvar[snipem;**Message:** $message;$channelused]
 $setchannelvar[snipea;$authorid;$channelused]
 $onlyif[$partial==false;{execute:cache}]`})
 bot.onMessageDelete()
-
-bot.readyCommand({
-channel:"$getvar[channel]",
-code:`$log[$usertag[$botownerid], I am up!]`
-})
 
 //Starboard
 
