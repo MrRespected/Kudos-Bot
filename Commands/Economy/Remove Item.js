@@ -8,11 +8,14 @@ user:"Manage Server",
 usage:"shop-remove <item title>",
 example:"shop-remove Testers",
 explain:"Removes the testers role from the role shop!",
-code:`$setservervar[item;$replacetext[$getservervar[item];~~$splittext[$get[i]];;1]]
+code:`$setservervar[item;$joinsplittext[~~]]
+$removetextsplitelement[$get[i]]
 $textsplit[$getservervar[item];~~]
-$setservervar[names;$replacetext[$getservervar[names];~~$splittext[$get[i]];;1]]
+$setservervar[names;$joinsplittext[~~]]
+$removetextsplitelement[$get[i]]
 $textsplit[$getservervar[names];~~]
-$setservervar[roles;$replacetext[$getservervar[roles];~~$splittext[$get[i]];;1]]
+$setservervar[roles;$joinsplittext[~~]]
+$removetextsplitelement[$get[i]]
 $textsplit[$getservervar[roles];~~]
 Removed the item **$message**(Role: $replacetext[$replacetext[$checkcondition[$roleexists[$findrole[$advancedtextsplit[$advancedtextsplit[$getservervar[roles];~~;$get[i]];.;1]]]==true];true;$rolename[$advancedtextsplit[$advancedtextsplit[$getservervar[roles];~~;$get[i]];.;1]]];false;Role doesn't exist anymore]) from the role shop!
 $onlyif[$get[i]!=0;{description:Item not found!}{color:FF0000}]
