@@ -17,3 +17,5 @@ I've taken a hell lot of time to do this, hope credits are not stolen :3
 Get a good host, 144 commands might give you a lot of lag :)
 # Support
 I deleted the original discord as well(along with the bot), however I test my bots here: https://discord.gg/6HE7CK2GrZ
+# Update
+This repo is now extremely old and rusty, trust me. I moved on to python anyways, so you can check my other repositories(which are in python). Still going ahead with this? No issues, do whatever you want, except asking me for help, because I don't use this anymore 
